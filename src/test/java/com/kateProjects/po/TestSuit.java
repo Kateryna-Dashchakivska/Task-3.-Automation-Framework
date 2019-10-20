@@ -7,12 +7,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-public class SearchTest {
+public class TestSuit {
 
     WebDriver driver;
 
@@ -34,8 +33,8 @@ public class SearchTest {
         driver.manage().window().maximize();
     }
 
-    @Test(description = "Search Test")
-    public void SearchTest() throws InterruptedException {
+    @Test(description = "Price Check Test")
+    public void PriceCheckTest() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -43,9 +42,34 @@ public class SearchTest {
         ItemPage itemPage = searchResultsPage.openFirstItem();
         Double itemPrice = itemPage.getItemPrice();
         Assert.assertTrue(itemPrice < 30, "Price is too expensive!");
-        Thread.sleep(3000);
+    }
+
+    @Test(description = "Changing item size")
+    public void ChangeItemSize() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        homePage.fillSearchInput("dress");
+        SearchResultsPage searchResultsPage = homePage.pressGo();
+        ItemPage itemPage = searchResultsPage.openFirstItem();
+        itemPage.selectItemSize("L");
+        CartModal cartModal = itemPage.addToCartFirstItem();
+        String size = cartModal.getItemSize();
+        Assert.assertTrue(size.equals("L"), "Size is not changed!");
 
     }
+
+    @Test(description = "Adding to Cart Test")
+    public void AddingToCartTest() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        homePage.fillSearchInput("dress");
+        SearchResultsPage searchResultsPage = homePage.pressGo();
+        ItemPage itemPage = searchResultsPage.openFirstItem();
+        CartModal cartModal = itemPage.addToCartFirstItem();
+        Integer itemQuantity = cartModal.getQuantityNumber();
+        Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!");
+    }
+
      @AfterClass(description = "Close browser")
             public void kill(){
         driver.quit();
