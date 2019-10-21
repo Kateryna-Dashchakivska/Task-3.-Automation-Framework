@@ -15,6 +15,8 @@ public class ItemPage extends AbstractPage {
     private static final By ADD_TO_CART_BUTTON_LOCATOR = By.xpath("//span[contains(text(),'Add to cart')]");
     private static final By ITEM_DROPDOWN_SIZE_LOCATOR = By.id ("group_1");
     private static final By BLUE_COLOR_LOCATOR = By.id ("color_14");
+    private static final By INCREASE_QUANTITY_LOCATOR = By.className("icon-plus");
+    private static final By DECREASE_QUANTITY_LOCATOR = By.className("icon-minus");
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -43,7 +45,23 @@ public class ItemPage extends AbstractPage {
         action.moveToElement(elementToClick).click().build().perform();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
+    public void addItemsQuantity (int itemQuantityToIncrease){
+        Actions action = new Actions(driver);
+        elementToClick = driver.findElement(INCREASE_QUANTITY_LOCATOR);
+        for (int currentItemQuantity = 0; currentItemQuantity < itemQuantityToIncrease; currentItemQuantity ++){
+            action.moveToElement(elementToClick).click().build().perform();
+        }
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
 
+    public void removeItemQuantity( int itemQuantityToDecrease ){
+        Actions action = new Actions(driver);
+        elementToClick = driver.findElement(DECREASE_QUANTITY_LOCATOR);
+        for (int currentItemQuantity = 0; currentItemQuantity < itemQuantityToDecrease; currentItemQuantity++){
+            action.moveToElement(elementToClick).click().build().perform();
+        }
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
 
 
 

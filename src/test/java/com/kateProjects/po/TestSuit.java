@@ -55,7 +55,6 @@ public class TestSuit {
         CartModal cartModal = itemPage.addToCartFirstItem();
         String size = cartModal.getItemSize();
         Assert.assertTrue(size.equals("L"), "Size is not changed!");
-
     }
 
     @Test(description = "Change Item Color Test")
@@ -69,6 +68,35 @@ public class TestSuit {
         CartModal cartModal = itemPage.addToCartFirstItem();
         String color = cartModal.getItemColor();
         Assert.assertTrue(color.equals("Blue"), "Color is not changed!");
+    }
+
+    @Test(description = "Increase Item Quantity Test")
+    public void IncreaseItemQuantityTest() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        homePage.fillSearchInput("dress");
+        SearchResultsPage searchResultsPage = homePage.pressGo();
+        ItemPage itemPage = searchResultsPage.openFirstItem();
+        itemPage.addItemsQuantity(3);
+        CartModal cartModal = itemPage.addToCartFirstItem();
+        Integer itemQuantity = cartModal.getQuantityNumber();
+        Assert.assertTrue(itemQuantity == 5, "Quantity is changed incorrectly! " +
+                "Expected: 5 but got: " + itemQuantity);
+    }
+
+    @Test(description = "Remove Item Quantity Test")
+    public void RemoveItemQuantityTest() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        homePage.fillSearchInput("dress");
+        SearchResultsPage searchResultsPage = homePage.pressGo();
+        ItemPage itemPage = searchResultsPage.openFirstItem();
+        itemPage.addItemsQuantity(10);
+        itemPage.removeItemQuantity(5);
+        CartModal cartModal = itemPage.addToCartFirstItem();
+        Integer itemQuantity = cartModal.getQuantityNumber();
+        Assert.assertTrue(itemQuantity == 6, "Quantity is changed incorrectly! " +
+                "Expected: 6 but got: " + itemQuantity);
 
     }
 
