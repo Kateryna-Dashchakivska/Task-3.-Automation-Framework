@@ -14,6 +14,7 @@ public class ItemPage extends AbstractPage {
     private static final By ITEM_PRICE_LOCATOR = By.cssSelector ("#our_price_display");
     private static final By ADD_TO_CART_BUTTON_LOCATOR = By.xpath("//span[contains(text(),'Add to cart')]");
     private static final By ITEM_DROPDOWN_SIZE_LOCATOR = By.id ("group_1");
+    private static final By BLUE_COLOR_LOCATOR = By.id ("color_14");
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -29,11 +30,18 @@ public class ItemPage extends AbstractPage {
         action.moveToElement(elementToClick).click().build().perform();
         return new CartModal(driver);
     }
+
     public void selectItemSize (String size){
         Select dropdown = new Select(driver.findElement(ITEM_DROPDOWN_SIZE_LOCATOR));
         dropdown.selectByVisibleText(size);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
 
+    public void selectItemColor (String color){
+        Actions action = new Actions(driver);
+        elementToClick = driver.findElement(BLUE_COLOR_LOCATOR);
+        action.moveToElement(elementToClick).click().build().perform();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
 

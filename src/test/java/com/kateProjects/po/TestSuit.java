@@ -44,8 +44,8 @@ public class TestSuit {
         Assert.assertTrue(itemPrice < 30, "Price is too expensive!");
     }
 
-    @Test(description = "Changing item size")
-    public void ChangeItemSize() throws InterruptedException {
+    @Test(description = "Change Item Size Test")
+    public void ChangeItemSizeTest() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -55,6 +55,20 @@ public class TestSuit {
         CartModal cartModal = itemPage.addToCartFirstItem();
         String size = cartModal.getItemSize();
         Assert.assertTrue(size.equals("L"), "Size is not changed!");
+
+    }
+
+    @Test(description = "Change Item Color Test")
+    public void ChangeItemColorTest() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        homePage.fillSearchInput("dress");
+        SearchResultsPage searchResultsPage = homePage.pressGo();
+        ItemPage itemPage = searchResultsPage.openFirstItem();
+        itemPage.selectItemColor("Blue");
+        CartModal cartModal = itemPage.addToCartFirstItem();
+        String color = cartModal.getItemColor();
+        Assert.assertTrue(color.equals("Blue"), "Color is not changed!");
 
     }
 
