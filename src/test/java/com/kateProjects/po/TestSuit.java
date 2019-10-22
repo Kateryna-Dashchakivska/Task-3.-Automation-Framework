@@ -1,5 +1,7 @@
 package com.kateProjects.po;
 
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -7,13 +9,14 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class TestSuit {
 
-    WebDriver driver;
+    private static WebDriver driver;
 
     {
         try {
@@ -26,15 +29,25 @@ public class TestSuit {
     }
 
     @BeforeClass(description = "Start browser")
-    private void initBrowser() throws MalformedURLException {
+    private static void initBrowser() throws MalformedURLException {
         System.setProperty("webdriver.chrome.driver", "src/main/java/resources/chromedriver.exe");
         driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 
+    @Before // setup()
+    public void beforeEachTestMethod() {
+        System.out.println("Setting it up!");
+    }
+
+    @After // tearDown()
+    public void afterEachTestMethod() {
+        System.out.println("Running: tearDown");
+    }
+
     @Test(description = "Price Check Test")
-    public void PriceCheckTest() throws InterruptedException {
+    public void PriceCheckTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -45,7 +58,7 @@ public class TestSuit {
     }
 
     @Test(description = "Change Item Size Test")
-    public void ChangeItemSizeTest() throws InterruptedException {
+    public void ChangeItemSizeTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -58,7 +71,7 @@ public class TestSuit {
     }
 
     @Test(description = "Change Item Color Test")
-    public void ChangeItemColorTest() throws InterruptedException {
+    public void ChangeItemColorTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -70,8 +83,8 @@ public class TestSuit {
         Assert.assertTrue(color.equals("Blue"), "Color is not changed!");
     }
 
-    @Test(description = "Increase Item Quantity Test")
-    public void IncreaseItemQuantityTest() throws InterruptedException {
+    @Test(description = "Add Item Quantity Test")
+    public void AddItemQuantityTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -80,12 +93,12 @@ public class TestSuit {
         itemPage.addItemsQuantity(3);
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 5, "Quantity is changed incorrectly! " +
-                "Expected: 5 but got: " + itemQuantity);
+        Assert.assertTrue(itemQuantity == 4, "Quantity is changed incorrectly! " +
+                "Expected: 4 but got: " + itemQuantity);
     }
 
     @Test(description = "Remove Item Quantity Test")
-    public void RemoveItemQuantityTest() throws InterruptedException {
+    public void RemoveItemQuantityTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -95,13 +108,13 @@ public class TestSuit {
         itemPage.removeItemQuantity(5);
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 6, "Quantity is changed incorrectly! " +
-                "Expected: 6 but got: " + itemQuantity);
+        Assert.assertTrue(itemQuantity == 7, "Quantity is changed incorrectly! " +
+                "Expected: 7 but got: " + itemQuantity);
+        }
 
-    }
 
     @Test(description = "Adding to Cart Test")
-    public void AddingToCartTest() throws InterruptedException {
+    public void AddingToCartTest() throws Exception {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.fillSearchInput("dress");
@@ -109,11 +122,12 @@ public class TestSuit {
         ItemPage itemPage = searchResultsPage.openFirstItem();
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!");
+        Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!" +
+                "Expected: 1 but got: " + itemQuantity);
     }
 
      @AfterClass(description = "Close browser")
-            public void kill(){
+            public static void kill(){
         driver.quit();
      }
 

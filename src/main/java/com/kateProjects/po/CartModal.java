@@ -22,7 +22,7 @@ public class CartModal extends AbstractPage{
         wait.until(ExpectedConditions.visibilityOfElementLocated(ITEM_QUANTITY_LOCATOR));
         element = driver.findElement(ITEM_QUANTITY_LOCATOR);
         String quantity = element.getText();
-        System.out.println(quantity);
+        //System.out.println(quantity);
         return Integer.parseInt(quantity);
     }
 

@@ -62,7 +62,4 @@ public class ItemPage extends AbstractPage {
         }
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
-
-
-
 }
