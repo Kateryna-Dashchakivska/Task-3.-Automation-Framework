@@ -110,7 +110,6 @@ public class TestSuit {
                 "Expected: 7 but got: " + itemQuantity);
         }
 
-
     @Test
     public void AddingToCartTest() throws Exception {
         System.out.println("Starting " + name.getMethodName());
@@ -124,6 +123,18 @@ public class TestSuit {
                 "Expected: 1 but got: " + itemQuantity);
     }
 
+    @Test
+    public void LoginTest() throws Exception {
+        System.out.println("Starting " + name.getMethodName());
+        homePage.open();
+        AuthenticationPage authPage = homePage.pressSignIn();
+        authPage.enterEmail("kate_d_test16@mail.com");
+        authPage.enterPassword("123456");
+        LoggedPage loggedPage = authPage.pressSignIn();
+        String user = loggedPage.getUserName();
+        Assert.assertTrue(user.equals("Kateryna Test"), "User Name is incorrect or you are not logged in! "  +
+                "Expected: Kateryna Test but got: " + user);
+    }
 
      @AfterClass
      public static void kill(){

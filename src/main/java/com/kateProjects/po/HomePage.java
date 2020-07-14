@@ -11,6 +11,7 @@ public class HomePage extends AbstractPage {
     private static final By GO_BUTTON_LOCATOR = By.xpath("//button[@name='submit_search']");
     private static final By CART_BLOCK_LOCATOR = By.className("shopping_cart");
     private static final By CART_BLOCK_REMOVE_ITEMS_LOCATOR = By.className("ajax_cart_block_remove_link");
+    private static final By SIGN_IN_LOCATOR = By.className("login");
     private static final String URL_ = "http://automationpractice.com/index.php";
 
     public HomePage(WebDriver driver) {
@@ -29,6 +30,11 @@ public class HomePage extends AbstractPage {
     public SearchResultsPage pressGo() {
         driver.findElement(GO_BUTTON_LOCATOR).click();
         return new SearchResultsPage(driver);
+    }
+
+    public AuthenticationPage pressSignIn() {
+        driver.findElement(SIGN_IN_LOCATOR).click();
+        return new AuthenticationPage(driver);
     }
 
     /*public void clearCartPopup() {
