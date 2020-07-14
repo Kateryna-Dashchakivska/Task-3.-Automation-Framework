@@ -32,7 +32,7 @@ public class HomePage extends AbstractPage {
         return new SearchResultsPage(driver);
     }
 
-    public AuthenticationPage pressSignIn() {
+    public AuthenticationPage pressSignInLink() {
         driver.findElement(SIGN_IN_LOCATOR).click();
         return new AuthenticationPage(driver);
     }

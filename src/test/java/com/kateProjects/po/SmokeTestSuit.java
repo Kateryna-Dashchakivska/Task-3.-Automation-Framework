@@ -6,21 +6,21 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Assert;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestSuit {
-
+public class SmokeTestSuit {
     private static WebDriver driver;
     private static HomePage homePage;
 
-    @Rule public TestName name = new TestName();
+    @Rule
+    public TestName name = new TestName();
 
     @Before // setup()
-    public void beforeEachTestMethod()throws MalformedURLException{
+    public void beforeEachTestMethod()throws MalformedURLException {
         try {
             driver = new RemoteWebDriver(
                     new URL("http://127.0.0.1:9515"),
@@ -52,7 +52,7 @@ public class TestSuit {
         SearchResultsPage searchResultsPage = homePage.pressGo();
         ItemPage itemPage = searchResultsPage.openFirstItem();
         Double itemPrice = itemPage.getItemPrice();
-        Assert.assertTrue(itemPrice < 30, "Price is too expensive!");
+        org.testng.Assert.assertTrue(itemPrice < 30, "Price is too expensive!");
     }
 
     @Test
@@ -65,7 +65,7 @@ public class TestSuit {
         itemPage.selectItemSize("L");
         CartModal cartModal = itemPage.addToCartFirstItem();
         String size = cartModal.getItemSize();
-        Assert.assertTrue(size.equals("L"), "Size is not changed!");
+        org.testng.Assert.assertTrue(size.equals("L"), "Size is not changed!");
     }
 
     @Test
@@ -78,7 +78,7 @@ public class TestSuit {
         itemPage.selectItemColor("Blue");
         CartModal cartModal = itemPage.addToCartFirstItem();
         String color = cartModal.getItemColor();
-        Assert.assertTrue(color.equals("Blue"), "Color is not changed!");
+        org.testng.Assert.assertTrue(color.equals("Blue"), "Color is not changed!");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TestSuit {
         itemPage.addItemsQuantity(3);
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 4, "Quantity is changed incorrectly! " +
+        org.testng.Assert.assertTrue(itemQuantity == 4, "Quantity is changed incorrectly! " +
                 "Expected: 4 but got: " + itemQuantity);
     }
 
@@ -106,9 +106,9 @@ public class TestSuit {
         itemPage.removeItemQuantity(3);
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 8, "Quantity is changed incorrectly! " +
+        org.testng.Assert.assertTrue(itemQuantity == 8, "Quantity is changed incorrectly! " +
                 "Expected: 7 but got: " + itemQuantity);
-        }
+    }
 
     @Test
     public void AddingToCartTest() throws Exception {
@@ -119,26 +119,13 @@ public class TestSuit {
         ItemPage itemPage = searchResultsPage.openFirstItem();
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
-        Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!" +
+        org.testng.Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!" +
                 "Expected: 1 but got: " + itemQuantity);
     }
 
-    @Test
-    public void LoginTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
-        homePage.open();
-        AuthenticationPage authPage = homePage.pressSignIn();
-        authPage.enterEmail("kate_d_test16@mail.com");
-        authPage.enterPassword("123456");
-        LoggedPage loggedPage = authPage.pressSignIn();
-        String user = loggedPage.getUserName();
-        Assert.assertTrue(user.equals("Kateryna Test"), "User Name is incorrect or you are not logged in! "  +
-                "Expected: Kateryna Test but got: " + user);
-    }
-
-     @AfterClass
-     public static void kill(){
+    @AfterClass
+    public static void kill(){
         driver.quit();
-     }
+    }
 
 }

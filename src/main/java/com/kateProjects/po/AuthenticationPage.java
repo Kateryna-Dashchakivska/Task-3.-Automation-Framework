@@ -24,11 +24,17 @@
             element.sendKeys(query);
         }
 
-        public LoggedPage pressSignIn() {
+        public LoggedInPage pressSignInButton() {
             driver.findElement(SUBMIT_LOGIN_LOCATOR).click();
-            return new LoggedPage(driver);
+            return new LoggedInPage(driver);
         }
 
+        public void clearCredentials() {
+            WebElement emailElement = driver.findElement(EMAIL_LOCATOR);
+            emailElement.clear();
+            WebElement passwordElement = driver.findElement(PASSWORD_LOCATOR);
+            passwordElement.clear();
+        }
 
 
 
