@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ItemPage extends AbstractPage {
@@ -28,26 +29,32 @@ public class ItemPage extends AbstractPage {
 
     public CartModal addToCartFirstItem (){
         Actions action = new Actions(driver);
-        elementToClick = driver.findElement(ADD_TO_CART_BUTTON_LOCATOR);
+        List<WebElement> elements = driver.findElements(ADD_TO_CART_BUTTON_LOCATOR);
+        WebElement elementToClick = elements.get(0);
         action.moveToElement(elementToClick).click().build().perform();
         return new CartModal(driver);
     }
 
     public void selectItemSize (String size){
-        Select dropdown = new Select(driver.findElement(ITEM_DROPDOWN_SIZE_LOCATOR));
+        List<WebElement> elements = driver.findElements(ITEM_DROPDOWN_SIZE_LOCATOR);
+        WebElement element = elements.get(0);
+        Select dropdown = new Select(element);
         dropdown.selectByVisibleText(size);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     public void selectItemColor (String color){
         Actions action = new Actions(driver);
-        elementToClick = driver.findElement(BLUE_COLOR_LOCATOR);
+        List<WebElement> elements = driver.findElements(BLUE_COLOR_LOCATOR);
+        WebElement elementToClick = elements.get(0);
         action.moveToElement(elementToClick).click().build().perform();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
+
     public void addItemsQuantity (int itemQuantityToIncrease){
         Actions action = new Actions(driver);
-        elementToClick = driver.findElement(INCREASE_QUANTITY_LOCATOR);
+        List<WebElement> elements = driver.findElements(INCREASE_QUANTITY_LOCATOR);
+        WebElement elementToClick = elements.get(0);
         for (int currentItemQuantity = 0; currentItemQuantity < itemQuantityToIncrease; currentItemQuantity ++){
             action.moveToElement(elementToClick).click().build().perform();
         }
@@ -56,7 +63,8 @@ public class ItemPage extends AbstractPage {
 
     public void removeItemQuantity( int itemQuantityToDecrease ){
         Actions action = new Actions(driver);
-        elementToClick = driver.findElement(DECREASE_QUANTITY_LOCATOR);
+        List<WebElement> elements = driver.findElements(DECREASE_QUANTITY_LOCATOR);
+        WebElement elementToClick = elements.get(0);
         for (int currentItemQuantity = 0; currentItemQuantity < itemQuantityToDecrease; currentItemQuantity++){
             action.moveToElement(elementToClick).click().build().perform();
         }

@@ -3,6 +3,7 @@
     import org.openqa.selenium.By;
     import org.openqa.selenium.WebDriver;
     import org.openqa.selenium.WebElement;
+    import java.util.List;
 
     public class AuthenticationPage extends AbstractPage {
 
@@ -16,30 +17,31 @@
         private static final By SUBMIT_LOGIN_LOCATOR = By.id("SubmitLogin");
 
         public void enterEmail(String query) {
-            WebElement element = driver.findElement(EMAIL_LOCATOR);
+            List<WebElement> elements = driver.findElements(EMAIL_LOCATOR);
+            WebElement element = elements.get(0);
             element.sendKeys(query);
         }
+
         public void enterPassword(String query) {    // 123456
-            WebElement element = driver.findElement(PASSWORD_LOCATOR);
+            List<WebElement> elements = driver.findElements(PASSWORD_LOCATOR);
+            WebElement element = elements.get(0);
             element.sendKeys(query);
         }
 
         public LoggedInPage pressSignInButton() {
-            driver.findElement(SUBMIT_LOGIN_LOCATOR).click();
+            List<WebElement> elements = driver.findElements(SUBMIT_LOGIN_LOCATOR);
+            WebElement element = elements.get(0);
+            element.click();
             return new LoggedInPage(driver);
         }
 
         public void clearCredentials() {
-            WebElement emailElement = driver.findElement(EMAIL_LOCATOR);
+            List<WebElement> elements = driver.findElements(EMAIL_LOCATOR);
+            WebElement emailElement = elements.get(0);
             emailElement.clear();
-            WebElement passwordElement = driver.findElement(PASSWORD_LOCATOR);
+
+            List<WebElement> elements2 = driver.findElements(PASSWORD_LOCATOR);
+            WebElement passwordElement = elements2.get(0);
             passwordElement.clear();
         }
-
-
-
     }
-
-
-
-

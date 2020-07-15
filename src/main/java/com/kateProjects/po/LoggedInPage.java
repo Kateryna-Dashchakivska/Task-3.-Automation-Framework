@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class LoggedInPage extends AbstractPage {
 
     WebElement element;
@@ -12,27 +14,28 @@ public class LoggedInPage extends AbstractPage {
     private static final By SIGN_OUT_LOCATOR = By.className("logout");
     private static final By ERROR_LOCATOR = By.cssSelector("div[class='alert alert-danger'");
 
-
     public LoggedInPage(WebDriver driver)
     {
         super(driver);
     }
 
-
     public String getUserName () {
-        // TODO: change to findElements!!!
-        return driver.findElement(USER_HEADER_LOCATOR).getText();
+        List<WebElement> elements = driver.findElements(USER_HEADER_LOCATOR);
+        WebElement element = elements.get(0);
+        return element.getText();
     }
 
     public String getLoginError() {
-        return driver.findElement(ERROR_LOCATOR).getText();
+        List<WebElement> elements = driver.findElements(ERROR_LOCATOR);
+        WebElement element = elements.get(0);
+        return element.getText();
     }
 
     public LoggedOutPage signOut (){
-        driver.findElement(SIGN_OUT_LOCATOR).click();
+
+        List<WebElement> elements = driver.findElements(SIGN_OUT_LOCATOR);
+        WebElement element = elements.get(0);
+        element.click();
         return new LoggedOutPage(driver);
     }
-
-
-
 }

@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -95,10 +94,9 @@ public class LoginTestSuit {
         authPage.enterEmail("kate_d_test16@mail.com");
         loggedInPage = authPage.pressSignInButton();
         loginError = loggedInPage.getLoginError();
-        // TODO: change Strings!!!
-        Assert.assertTrue(loginError.equals("There is 1 error\nAn email address required."),
+        Assert.assertTrue(loginError.equals("There is 1 error\nPassword is required."),
                 "There are no Errors or Error is not correct!" +
-                        "Expected: 'There is 1 error\nAn email address required.' but received: " + loginError);
+                        "Expected: 'There is 1 error\nPassword is required.' but received: " + loginError);
 
         authPage.clearCredentials();
 
@@ -106,11 +104,9 @@ public class LoginTestSuit {
         authPage.enterPassword("123456");
         loggedInPage = authPage.pressSignInButton();
         loginError = loggedInPage.getLoginError();
-        // TODO: change Strings!!!
         Assert.assertTrue(loginError.equals("There is 1 error\nAn email address required."),
                 "There are no Errors or Error is not correct!" +
                         "Expected: 'There is 1 error\nAn email address required.' but received: " + loginError);
-
     }
 
     @Test

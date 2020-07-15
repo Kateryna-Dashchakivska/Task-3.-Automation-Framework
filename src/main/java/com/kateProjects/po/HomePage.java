@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class HomePage extends AbstractPage {
 
     WebElement cart_element;
@@ -23,17 +25,22 @@ public class HomePage extends AbstractPage {
     }
 
     public void fillSearchInput(String query) {
-        WebElement element = driver.findElement(SEARCH_INPUT_LOCATOR);
+        List<WebElement> elements = driver.findElements(SEARCH_INPUT_LOCATOR);
+        WebElement element = elements.get(0);
         element.sendKeys(query);
     }
 
     public SearchResultsPage pressGo() {
-        driver.findElement(GO_BUTTON_LOCATOR).click();
+        List<WebElement> elements = driver.findElements(GO_BUTTON_LOCATOR);
+        WebElement element = elements.get(0);
+        element.click();
         return new SearchResultsPage(driver);
     }
 
     public AuthenticationPage pressSignInLink() {
-        driver.findElement(SIGN_IN_LOCATOR).click();
+        List<WebElement> elements = driver.findElements(SIGN_IN_LOCATOR);
+        WebElement element = elements.get(0);
+        element.click();
         return new AuthenticationPage(driver);
     }
 
@@ -50,18 +57,14 @@ public class HomePage extends AbstractPage {
             Actions actions1 = actions.click();
             Action actions2 = actions1.build();
             actions2.perform();
-
             WebElement aaa = driver.findElement(By.xpath("//a[@class='ajax_cart_block_remove_link']"));
             WebElement aaa = driver.findElement(By.xpath("//a[@class='ajax_cart_block_remove_link']"));
             WebElement aaa = driver.findElement(By.xpath("//div[@class='cart_block block exclusive']"));
-
             WebDriverWait wait0 = new WebDriverWait(driver, 15);
             wait0.until(ExpectedConditions.elementToBeClickable(aaa));
-
             aaa.click();
             actions.moveToElement(aaa);
             WebElement aaa2 = ;
-
             WebDriverWait wait = new WebDriverWait(driver, 15);
             wait.until(ExpectedConditions.elementToBeClickable(aaa2));
             aaa2.click();
