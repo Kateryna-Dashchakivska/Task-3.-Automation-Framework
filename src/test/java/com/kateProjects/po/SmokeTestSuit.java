@@ -11,7 +11,9 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class SmokeTestSuit {
+
     private static WebDriver driver;
     private static HomePage homePage;
 
@@ -35,10 +37,6 @@ public class SmokeTestSuit {
 
     @After // tearDown()
     public void afterEachTestMethod() {
-//        System.out.println("Running: tearDown");
-//        homePage.open();
-//        homePage.clearCartPopup();
-//        System.out.println("Cart is cleared!");
         driver.close();
     }
 

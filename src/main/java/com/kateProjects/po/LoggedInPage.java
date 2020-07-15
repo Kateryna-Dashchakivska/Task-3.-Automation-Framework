@@ -32,7 +32,6 @@ public class LoggedInPage extends AbstractPage {
     }
 
     public LoggedOutPage signOut (){
-
         List<WebElement> elements = driver.findElements(SIGN_OUT_LOCATOR);
         WebElement element = elements.get(0);
         element.click();

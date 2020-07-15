@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class LoginTestSuit {
 
     private static WebDriver driver;
@@ -39,10 +40,6 @@ public class LoginTestSuit {
 
     @After // tearDown()
     public void afterEachTestMethod() {
-//        System.out.println("Running: tearDown");
-//        homePage.open();
-//        homePage.clearCartPopup();
-//        System.out.println("Cart is cleared!");
         driver.close();
     }
 
@@ -134,9 +131,36 @@ public class LoginTestSuit {
         }
     }
 
+    @Test
+    public void UnregisteredEmailTest() throws Exception {
+        System.out.println("Starting " + name.getMethodName());
+        homePage.open();
+        AuthenticationPage authPage = homePage.pressSignInLink();
+        authPage.enterEmail("kate_d_test@mail.com");  //email was not registered
+        authPage.enterPassword("123456");
+        LoggedInPage loggedInPage = authPage.pressSignInButton();
+        String loginError = loggedInPage.getLoginError();
+        Assert.assertTrue(loginError.equals("There is 1 error\nAuthentication failed."),
+                "There are no Errors or Error is not correct!" +
+                        "Expected: 'There is 1 error\nAuthentication failed.' but received: " + loginError);
+    }
+
+    @Test
+    public void InvalidPasswordTest() throws Exception {
+        System.out.println("Starting " + name.getMethodName());
+        homePage.open();
+        AuthenticationPage authPage = homePage.pressSignInLink();
+        authPage.enterEmail("kate_d_test16@mail.com");
+        authPage.enterPassword("111111");     //invalid password
+        LoggedInPage loggedInPage = authPage.pressSignInButton();
+        String loginError = loggedInPage.getLoginError();
+        Assert.assertTrue(loginError.equals("There is 1 error\nAuthentication failed."),
+                "There are no Errors or Error is not correct!" +
+                        "Expected: 'There is 1 error\nAuthentication failed.' but received: " + loginError);
+    }
+
      @AfterClass
      public static void kill(){
         driver.quit();
      }
-
 }

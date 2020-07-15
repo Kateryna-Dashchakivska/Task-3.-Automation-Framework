@@ -43,33 +43,4 @@ public class HomePage extends AbstractPage {
         element.click();
         return new AuthenticationPage(driver);
     }
-
-    /*public void clearCartPopup() {
-        Actions actions = new Actions(driver);
-        List<WebElement> cart_blocks = driver.findElements(CART_BLOCK_LOCATOR);
-        if (cart_blocks.isEmpty()){
-            System.out.println("No Cart element is found!");
-        } else {
-            actions.moveToElement(cart_blocks.get(0)).moveToElement(driver.findElement(By.xpath("//a[@class='ajax_cart_block_remove_link']"))).click().build().perform();
-            WebElement remove_icon = driver.findElement(CART_BLOCK_REMOVE_ITEMS_LOCATOR);
-            actions.moveToElement(remove_icon);
-            actions.click().build().perform();
-            Actions actions1 = actions.click();
-            Action actions2 = actions1.build();
-            actions2.perform();
-            WebElement aaa = driver.findElement(By.xpath("//a[@class='ajax_cart_block_remove_link']"));
-            WebElement aaa = driver.findElement(By.xpath("//a[@class='ajax_cart_block_remove_link']"));
-            WebElement aaa = driver.findElement(By.xpath("//div[@class='cart_block block exclusive']"));
-            WebDriverWait wait0 = new WebDriverWait(driver, 15);
-            wait0.until(ExpectedConditions.elementToBeClickable(aaa));
-            aaa.click();
-            actions.moveToElement(aaa);
-            WebElement aaa2 = ;
-            WebDriverWait wait = new WebDriverWait(driver, 15);
-            wait.until(ExpectedConditions.elementToBeClickable(aaa2));
-            aaa2.click();
-            actions.moveToElement(cart_blocks.get(0)).perform();
-            driver.click();
-        }
-    }*/
 }
