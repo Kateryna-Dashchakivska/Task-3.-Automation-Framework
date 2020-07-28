@@ -12,6 +12,16 @@
             super(driver);
         }
 
+        private User user;
+
+        public User getUser(){
+            return this.user;
+        }
+
+        public void setUser(User user){
+            this.user = user;
+        }
+
         private static final By EMAIL_LOCATOR = By.id("email");
         private static final By PASSWORD_LOCATOR = By.id("passwd");
         private static final By SUBMIT_LOGIN_LOCATOR = By.id("SubmitLogin");
@@ -28,7 +38,16 @@
             element.sendKeys(query);
         }
 
-        public LoggedInPage pressSignInButton() {
+        public LoggedInPage pressSignInButton() {    // 123456
+            List<WebElement> elements = driver.findElements(SUBMIT_LOGIN_LOCATOR);
+            WebElement element = elements.get(0);
+            element.click();
+            return new LoggedInPage(driver);
+        }
+
+        public LoggedInPage signInWithUser(User user) {
+            enterEmail(user.getEmail());
+            enterPassword(user.getPassword());
             List<WebElement> elements = driver.findElements(SUBMIT_LOGIN_LOCATOR);
             WebElement element = elements.get(0);
             element.click();
