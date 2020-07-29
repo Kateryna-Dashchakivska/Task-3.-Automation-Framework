@@ -9,8 +9,8 @@ public class TestUserBuilder implements UserBuilder{
     }
 
     public void buildCredentials(){
-        this.user.setEmail("kate_d_test16@mail.com");
-        this.user.setPassword("123456");
+        this.user.setEmail(CONSTANT.LOGIN_EMAIL);
+        this.user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
     }
 
     public void buildName(){

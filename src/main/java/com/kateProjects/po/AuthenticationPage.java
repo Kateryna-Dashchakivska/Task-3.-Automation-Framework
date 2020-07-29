@@ -26,28 +26,25 @@
         private static final By PASSWORD_LOCATOR = By.id("passwd");
         private static final By SUBMIT_LOGIN_LOCATOR = By.id("SubmitLogin");
 
-        public void enterEmail(String query) {
+        private void enterEmail(String query) {
             List<WebElement> elements = driver.findElements(EMAIL_LOCATOR);
             WebElement element = elements.get(0);
             element.sendKeys(query);
         }
 
-        public void enterPassword(String query) {    // 123456
+        private void enterPassword(String query) {    // 123456
             List<WebElement> elements = driver.findElements(PASSWORD_LOCATOR);
             WebElement element = elements.get(0);
             element.sendKeys(query);
         }
 
-        public LoggedInPage pressSignInButton() {    // 123456
-            List<WebElement> elements = driver.findElements(SUBMIT_LOGIN_LOCATOR);
-            WebElement element = elements.get(0);
-            element.click();
-            return new LoggedInPage(driver);
-        }
-
         public LoggedInPage signInWithUser(User user) {
             enterEmail(user.getEmail());
-            enterPassword(user.getPassword());
+            if (user.getPassword().equals("")){
+                enterPassword("");
+            }    else {
+                enterPassword(AES256.decrypt(user.getPassword()));
+            }
             List<WebElement> elements = driver.findElements(SUBMIT_LOGIN_LOCATOR);
             WebElement element = elements.get(0);
             element.click();
