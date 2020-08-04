@@ -1,8 +1,4 @@
-package com.kateProjects.po;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+package com.kateProjects.po.User;
 
 public class UserHelper {
 
@@ -20,7 +16,7 @@ public class UserHelper {
         return emptyCredentialsUserBuilder.getResult();
     }
 
-    private static List <String> invalidEmails(){
+    /*private static List <String> invalidEmails(){
         return Arrays.asList("kate_d_test16@mail.", "kate_d_test16@mail", "kate_d_test16mail.com",
                 "@mail.com", "kate_d_test16@mail,com", "kate_d_test16@@mail.com");
     }
@@ -31,10 +27,16 @@ public class UserHelper {
         for (String email : UserHelper.invalidEmails()){
             User user = new User();
             user.setEmail(email);
-            user.setPassword("wnleXnHllYWt8id4C+rxow==");
+            user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
             result.add(user);
         }
         return result;
-    }
+    }*/
 
+    /*public static User createUsersWithInvalidEmail() {
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+            return user;
+    }*/
 }

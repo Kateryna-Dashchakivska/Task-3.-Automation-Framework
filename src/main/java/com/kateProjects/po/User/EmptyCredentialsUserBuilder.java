@@ -1,6 +1,6 @@
-package com.kateProjects.po;
+package com.kateProjects.po.User;
 
-public class EmptyCredentialsUserBuilder implements UserBuilder{
+public class EmptyCredentialsUserBuilder implements UserBuilder {
 
     private User user;
 

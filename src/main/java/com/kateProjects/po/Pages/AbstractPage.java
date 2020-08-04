@@ -1,4 +1,4 @@
-package com.kateProjects.po;
+package com.kateProjects.po.Pages;
 
 import org.openqa.selenium.WebDriver;
 

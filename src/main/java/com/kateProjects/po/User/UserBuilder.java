@@ -1,4 +1,4 @@
-package com.kateProjects.po;
+package com.kateProjects.po.User;
 
 public interface UserBuilder {
 

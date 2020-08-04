@@ -1,13 +1,14 @@
-package com.kateProjects.po;
+package com.kateProjects.po.Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.List;
 
-public class CartModal extends AbstractPage{
+public class CartModal extends AbstractPage {
     WebElement element;
     private static final By ITEM_QUANTITY_LOCATOR = By.id("layer_cart_product_quantity");
     private static final By ITEM_COLOR_AND_SIZE_LOCATOR = By.id("layer_cart_product_attributes");

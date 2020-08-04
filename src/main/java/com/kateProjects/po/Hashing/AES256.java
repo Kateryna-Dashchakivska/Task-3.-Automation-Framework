@@ -1,4 +1,4 @@
-package com.kateProjects.po;
+package com.kateProjects.po.Hashing;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

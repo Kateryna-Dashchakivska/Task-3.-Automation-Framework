@@ -1,48 +1,39 @@
 package com.kateProjects.po;
 
-import org.junit.*;
-import org.junit.rules.TestName;
-import org.junit.runners.MethodSorters;
+import com.kateProjects.po.Pages.CartModal;
+import com.kateProjects.po.Pages.HomePage;
+import com.kateProjects.po.Pages.ItemPage;
+import com.kateProjects.po.Pages.SearchResultsPage;
+import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class SmokeTestSuit {
 
-    private static WebDriver driver;
     private static HomePage homePage;
 
-    @Rule
-    public TestName name = new TestName();
+//    @Rule
+//    public TestName name = new TestName();
 
-    @Before // setup()
-    public void beforeEachTestMethod()throws MalformedURLException {
-        try {
-            driver = new RemoteWebDriver(
-                    new URL("http://127.0.0.1:9515"),
-                    new ChromeOptions());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    @BeforeMethod
+    public void setUp(){
+        WebDriver driver = DriverFactory.getChromeDriver();
+        DriverFactory.browserSetUp();
         homePage = new HomePage(driver);
+        homePage.open();
     }
 
-    @After // tearDown()
-    public void afterEachTestMethod() {
-        driver.close();
+    @AfterMethod
+    public void tearDown() {
+        DriverFactory.kill();
     }
 
     @Test
     public void PriceCheckTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -53,7 +44,7 @@ public class SmokeTestSuit {
 
     @Test
     public void ChangeItemSizeTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -66,7 +57,7 @@ public class SmokeTestSuit {
 
     @Test
     public void ChangeItemColorTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -79,7 +70,7 @@ public class SmokeTestSuit {
 
     @Test
     public void AddItemQuantityTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -93,7 +84,7 @@ public class SmokeTestSuit {
 
     @Test
     public void RemoveItemQuantityTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -108,7 +99,7 @@ public class SmokeTestSuit {
 
     @Test
     public void AddingToCartTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+        //System.out.println("Starting " + name.getMethodName());
         homePage.open();
         homePage.fillSearchInput("dress");
         SearchResultsPage searchResultsPage = homePage.pressGo();
@@ -117,11 +108,6 @@ public class SmokeTestSuit {
         Integer itemQuantity = cartModal.getQuantityNumber();
         org.testng.Assert.assertTrue(itemQuantity == 1, "Added more than one item to the Cart!" +
                 "Expected: 1 but got: " + itemQuantity);
-    }
-
-    @AfterClass
-    public static void kill(){
-        driver.quit();
     }
 
 }

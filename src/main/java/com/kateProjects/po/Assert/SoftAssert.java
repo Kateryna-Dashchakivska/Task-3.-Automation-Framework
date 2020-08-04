@@ -1,4 +1,4 @@
-package com.kateProjects.po;
+package com.kateProjects.po.Assert;
 
 public class SoftAssert {
 

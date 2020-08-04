@@ -1,6 +1,8 @@
-package com.kateProjects.po;
+package com.kateProjects.po.User;
 
-public class TestUserBuilder implements UserBuilder{
+import com.kateProjects.po.Strings.CONSTANT;
+
+public class TestUserBuilder implements UserBuilder {
 
     private User user;
 

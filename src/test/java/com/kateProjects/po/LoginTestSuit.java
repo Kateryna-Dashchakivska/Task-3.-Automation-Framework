@@ -1,51 +1,48 @@
 package com.kateProjects.po;
 
-import org.junit.*;
-import org.junit.rules.TestName;
-import org.junit.runners.MethodSorters;
+import com.kateProjects.po.Assert.SoftAssert;
+import com.kateProjects.po.Hashing.AES256;
+import com.kateProjects.po.Pages.AuthenticationPage;
+import com.kateProjects.po.Pages.HomePage;
+import com.kateProjects.po.Pages.LoggedInPage;
+import com.kateProjects.po.Pages.LoggedOutPage;
+import com.kateProjects.po.Strings.CONSTANT;
+import com.kateProjects.po.User.User;
+import com.kateProjects.po.User.UserHelper;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 import org.testng.Assert;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class LoginTestSuit {
 
-    private static WebDriver driver;
-    private static HomePage homePage;
+    HomePage homePage;
 
-    @Rule public TestName name = new TestName();
+    @DataProvider (name = "data-provider")
+    public Object[][] dpMethod(){
+        return CONSTANT.LOGIN_INVALID_EMAIL;
+    }
 
-    @Before // setup()
-    public void beforeEachTestMethod()throws MalformedURLException{
-        try {
-            driver = new RemoteWebDriver(
-                    new URL("http://127.0.0.1:9515"),
-                    new ChromeOptions());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    @BeforeMethod
+    public void setUp(){
+        WebDriver driver = DriverFactory.getChromeDriver();
+        DriverFactory.browserSetUp();
         homePage = new HomePage(driver);
-    }
-
-    @After // tearDown()
-    public void afterEachTestMethod() {
-        driver.close();
-    }
-
-    @Test
-    public void SignInTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
         homePage.open();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        DriverFactory.kill();
+    }
+
+    @Test(description = "To test login")
+    public void SignInTest() throws Exception {
+        //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
         String user = loggedInPage.getUserName();
@@ -56,8 +53,7 @@ public class LoginTestSuit {
     @Test
     public void SignOutTest() throws Exception {
         StringBuilder result = new StringBuilder();
-        System.out.println("Starting " + name.getMethodName());
-        homePage.open();
+        //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
 
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
@@ -76,12 +72,10 @@ public class LoginTestSuit {
         Assert.assertTrue(result.length() == 0, "The test(s) failed with result: " + result);
     }
 
-
     @Test
     public void EmptyCredentialTest() throws Exception {
         StringBuilder result = new StringBuilder();
-        System.out.println("Starting " + name.getMethodName());
-        homePage.open();
+        //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
 
         //Verify when both email and password are empty
@@ -115,35 +109,29 @@ public class LoginTestSuit {
         Assert.assertTrue(result.length() == 0, "The test(s) failed with result: " + result);
     }
 
-    @Test
-    public void InvalidEmailsTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
+    @Test (dataProvider = "data-provider")
+    public void InvalidEmailsTest(String email) throws Exception { // TODO: 7/31/2020 TEST NG Data provider
+        //System.out.println("Starting " + name.getMethodName());
 
-        homePage.open();
         AuthenticationPage authPage = homePage.pressSignInLink();
 
-        /*List<String> invalidEmails = Arrays.asList("kate_d_test16@mail.", "kate_d_test16@mail", "kate_d_test16mail.com",
-                "@mail.com", "kate_d_test16@mail,com", "kate_d_test16@@mail.com");*/
-        LoggedInPage loginPage;
-        String loginError;
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+        LoggedInPage loginPage = authPage.signInWithUser(user);
+        String loginError = loginPage.getLoginError();
 
-
-        for (User user: UserHelper.createUsersWithInvalidEmail()) {
-            loginPage = authPage.signInWithUser(user);
-            loginError = loginPage.getLoginError();
-
-            Assert.assertTrue(loginError.equals("There is 1 error\nInvalid email address."),
+        Assert.assertTrue(loginError.equals("There is 1 error\nInvalid email address."),
                     "There are no Errors or Error is not correct! " +
                     "Expected: 'There is 1 error\nInvalid email address.' but received: " + loginError);
             //reset fields to avoid concatenation:
             authPage.clearCredentials();
-        }
+
     }
 
     @Test
     public void UnregisteredEmailTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
-        homePage.open();
+        //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(CONSTANT.LOGIN_UNREGISTERED_EMAIL);
@@ -157,8 +145,7 @@ public class LoginTestSuit {
 
     @Test
     public void InvalidPasswordTest() throws Exception {
-        System.out.println("Starting " + name.getMethodName());
-        homePage.open();
+        //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(CONSTANT.LOGIN_EMAIL);
@@ -173,6 +160,7 @@ public class LoginTestSuit {
     //test to encrypt password (needs to be removed)
     @Test
     public void EncryptionTest (){
+        //System.out.println("Starting " + name.getMethodName());
         String originalString = "111111";
 
         String encryptedString = AES256.encrypt(originalString) ;
@@ -182,9 +170,4 @@ public class LoginTestSuit {
         System.out.println(encryptedString);
         System.out.println(decryptedString);
     }
-
-     @AfterClass
-     public static void kill(){
-        driver.quit();
-     }
 }

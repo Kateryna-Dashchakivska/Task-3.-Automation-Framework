@@ -1,9 +1,12 @@
-    package com.kateProjects.po;
+    package com.kateProjects.po.Pages;
 
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import java.util.List;
+    import com.kateProjects.po.Hashing.AES256;
+    import com.kateProjects.po.User.User;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
     public class AuthenticationPage extends AbstractPage {
 
