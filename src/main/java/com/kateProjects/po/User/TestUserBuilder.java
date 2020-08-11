@@ -1,6 +1,6 @@
 package com.kateProjects.po.User;
 
-import com.kateProjects.po.Strings.CONSTANT;
+import com.kateProjects.po.Strings.Constant;
 
 public class TestUserBuilder implements UserBuilder {
 
@@ -11,8 +11,8 @@ public class TestUserBuilder implements UserBuilder {
     }
 
     public void buildCredentials(){
-        this.user.setEmail(CONSTANT.LOGIN_EMAIL);
-        this.user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+        this.user.setEmail(Constant.LOGIN_EMAIL);
+        this.user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
     }
 
     public void buildName(){

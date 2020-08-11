@@ -6,7 +6,7 @@ import com.kateProjects.po.Pages.AuthenticationPage;
 import com.kateProjects.po.Pages.HomePage;
 import com.kateProjects.po.Pages.LoggedInPage;
 import com.kateProjects.po.Pages.LoggedOutPage;
-import com.kateProjects.po.Strings.CONSTANT;
+import com.kateProjects.po.Strings.Constant;
 import com.kateProjects.po.User.User;
 import com.kateProjects.po.User.UserHelper;
 import org.openqa.selenium.WebDriver;
@@ -22,14 +22,15 @@ public class LoginTestSuit {
 
     HomePage homePage;
 
-    @DataProvider (name = "data-provider")
-    public Object[][] dpMethod(){
-        return CONSTANT.LOGIN_INVALID_EMAIL;
+    @DataProvider (name = "dp-invalid-emails")
+    public Object[][] dpInvalidEmails(){
+        return Constant.LOGIN_INVALID_EMAIL;
     }
 
     @BeforeMethod
     public void setUp(){
         WebDriver driver = DriverFactory.getChromeDriver();
+
         DriverFactory.browserSetUp();
         homePage = new HomePage(driver);
         homePage.open();
@@ -87,7 +88,7 @@ public class LoginTestSuit {
 
         //Verify when only password is empty
         User user = UserHelper.getEmptyCredentialsUser();
-        user.setEmail(CONSTANT.LOGIN_EMAIL);
+        user.setEmail(Constant.LOGIN_EMAIL);
         loggedInPage = authPage.signInWithUser(user);
         loginError = loggedInPage.getLoginError();
         SoftAssert.assertTrueAppendResult(loginError.equals("There is 1 error\nPassword is required."),
@@ -98,7 +99,7 @@ public class LoginTestSuit {
 
         //Verify when only email is empty
         user.setEmail("");
-        user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+        user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
         loggedInPage = authPage.signInWithUser(user);
         loginError = loggedInPage.getLoginError();
         SoftAssert.assertTrueAppendResult(loginError.equals("There is 1 error\nAn email address required."),
@@ -109,7 +110,7 @@ public class LoginTestSuit {
         Assert.assertTrue(result.length() == 0, "The test(s) failed with result: " + result);
     }
 
-    @Test (dataProvider = "data-provider")
+    @Test (dataProvider = "dp-invalid-emails")
     public void InvalidEmailsTest(String email) throws Exception { // TODO: 7/31/2020 TEST NG Data provider
         //System.out.println("Starting " + name.getMethodName());
 
@@ -117,7 +118,7 @@ public class LoginTestSuit {
 
         User user = new User();
         user.setEmail(email);
-        user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+        user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
         LoggedInPage loginPage = authPage.signInWithUser(user);
         String loginError = loginPage.getLoginError();
 
@@ -134,8 +135,8 @@ public class LoginTestSuit {
         //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
-        user.setEmail(CONSTANT.LOGIN_UNREGISTERED_EMAIL);
-        user.setPassword(CONSTANT.VALID_ENCRYPTED_PASSWORD);
+        user.setEmail(Constant.LOGIN_UNREGISTERED_EMAIL);
+        user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
         LoggedInPage loggedInPage = authPage.signInWithUser(user);
         String loginError = loggedInPage.getLoginError();
         Assert.assertTrue(loginError.equals("There is 1 error\nAuthentication failed."),
@@ -148,8 +149,8 @@ public class LoginTestSuit {
         //System.out.println("Starting " + name.getMethodName());
         AuthenticationPage authPage = homePage.pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
-        user.setEmail(CONSTANT.LOGIN_EMAIL);
-        user.setPassword(CONSTANT.INVALID_ENCRYPTED_PASSWORD);
+        user.setEmail(Constant.LOGIN_EMAIL);
+        user.setPassword(Constant.INVALID_ENCRYPTED_PASSWORD);
         LoggedInPage loggedInPage = authPage.signInWithUser(user);
         String loginError = loggedInPage.getLoginError();
         Assert.assertTrue(loginError.equals("There is 1 error\nAuthentication failed."),

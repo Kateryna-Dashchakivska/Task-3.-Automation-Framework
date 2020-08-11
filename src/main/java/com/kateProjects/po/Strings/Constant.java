@@ -1,8 +1,8 @@
 package com.kateProjects.po.Strings;
 
-public class CONSTANT {
+public class Constant {
 
-    private CONSTANT() {}
+    private Constant() {}
     public static final String LOGIN_EMAIL = "kate_d_test16@mail.com";
     public static final String LOGIN_UNREGISTERED_EMAIL = "kate_d_test@mail.com";
 

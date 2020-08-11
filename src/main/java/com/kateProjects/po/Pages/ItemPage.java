@@ -18,6 +18,8 @@ public class ItemPage extends AbstractPage {
     private static final By BLUE_COLOR_LOCATOR = By.id ("color_14");
     private static final By INCREASE_QUANTITY_LOCATOR = By.className("icon-plus");
     private static final By DECREASE_QUANTITY_LOCATOR = By.className("icon-minus");
+    private static final By WISHLIST_BUTTON = By.id("wishlist_button");
+    private static final By WISHLIST_MESSAGE = By.className("fancybox-error");
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -69,5 +71,19 @@ public class ItemPage extends AbstractPage {
             action.moveToElement(elementToClick).click().build().perform();
         }
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
+
+    public void addToWishList (){
+        Actions action = new Actions(driver);
+        List<WebElement> elements = driver.findElements(WISHLIST_BUTTON);
+        WebElement elementToClick = elements.get(0);
+        action.moveToElement(elementToClick).click().build().perform();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
+
+    public String getWishlistMessage() {
+        List<WebElement> elements = driver.findElements(WISHLIST_MESSAGE);
+        WebElement element = elements.get(0);
+        return element.getText();
     }
 }
