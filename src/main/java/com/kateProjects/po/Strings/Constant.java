@@ -3,7 +3,7 @@ package com.kateProjects.po.Strings;
 public class Constant {
 
     private Constant() {}
-    public static final String LOGIN_EMAIL = "kate_d_test16@mail.com";
+    public static final String LOGIN_EMAIL = "kate_d@mail.com";
     public static final String LOGIN_UNREGISTERED_EMAIL = "kate_d_test@mail.com";
 
     public static final Object [][] LOGIN_INVALID_EMAIL = {{"kate_d_test16@mail."}, {"kate_d_test16@mail"}, {"kate_d_test16mail.com"},

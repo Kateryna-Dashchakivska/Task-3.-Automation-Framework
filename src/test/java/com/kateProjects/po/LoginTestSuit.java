@@ -1,39 +1,31 @@
 package com.kateProjects.po;
 
 import com.kateProjects.po.Assert.SoftAssert;
+import com.kateProjects.po.BussinessFlows.Flows;
+import com.kateProjects.po.DataProvider.DataProviderSource;
+import com.kateProjects.po.Driver.DriverFactory;
 import com.kateProjects.po.Hashing.AES256;
 import com.kateProjects.po.Pages.AuthenticationPage;
-import com.kateProjects.po.Pages.HomePage;
 import com.kateProjects.po.Pages.LoggedInPage;
 import com.kateProjects.po.Pages.LoggedOutPage;
 import com.kateProjects.po.Strings.Constant;
+import com.kateProjects.po.TestUtils.Listener;
 import com.kateProjects.po.User.User;
 import com.kateProjects.po.User.UserHelper;
-import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
+@Listeners(Listener.class)
 public class LoginTestSuit {
-
-    HomePage homePage;
-
-    @DataProvider (name = "dp-invalid-emails")
-    public Object[][] dpInvalidEmails(){
-        return Constant.LOGIN_INVALID_EMAIL;
-    }
 
     @BeforeMethod
     public void setUp(){
-        WebDriver driver = DriverFactory.getChromeDriver();
-
-        DriverFactory.browserSetUp();
-        homePage = new HomePage(driver);
-        homePage.open();
+        Flows.start();
     }
 
     @AfterMethod
@@ -44,7 +36,7 @@ public class LoginTestSuit {
     @Test(description = "To test login")
     public void SignInTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
         String user = loggedInPage.getUserName();
         Assert.assertTrue(user.equals("Kateryna Test"), "User Name is incorrect or you are not logged in! "  +
@@ -55,7 +47,7 @@ public class LoginTestSuit {
     public void SignOutTest() throws Exception {
         StringBuilder result = new StringBuilder();
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
 
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
         String user = loggedInPage.getUserName();
@@ -77,7 +69,7 @@ public class LoginTestSuit {
     public void EmptyCredentialTest() throws Exception {
         StringBuilder result = new StringBuilder();
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
 
         //Verify when both email and password are empty
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getEmptyCredentialsUser());
@@ -110,11 +102,11 @@ public class LoginTestSuit {
         Assert.assertTrue(result.length() == 0, "The test(s) failed with result: " + result);
     }
 
-    @Test (dataProvider = "dp-invalid-emails")
-    public void InvalidEmailsTest(String email) throws Exception { // TODO: 7/31/2020 TEST NG Data provider
+    @Test (dataProvider = "dp-invalid-emails", dataProviderClass = DataProviderSource.class)
+    public void InvalidEmailsTest(String email) throws Exception {
         //System.out.println("Starting " + name.getMethodName());
 
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
 
         User user = new User();
         user.setEmail(email);
@@ -127,13 +119,12 @@ public class LoginTestSuit {
                     "Expected: 'There is 1 error\nInvalid email address.' but received: " + loginError);
             //reset fields to avoid concatenation:
             authPage.clearCredentials();
-
     }
 
     @Test
     public void UnregisteredEmailTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(Constant.LOGIN_UNREGISTERED_EMAIL);
         user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
@@ -147,7 +138,7 @@ public class LoginTestSuit {
     @Test
     public void InvalidPasswordTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = homePage.pressSignInLink();
+        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(Constant.LOGIN_EMAIL);
         user.setPassword(Constant.INVALID_ENCRYPTED_PASSWORD);

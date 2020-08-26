@@ -16,7 +16,10 @@ public class HomePage extends AbstractPage {
     private static final By CART_BLOCK_REMOVE_ITEMS_LOCATOR = By.className("ajax_cart_block_remove_link");
     private static final By SIGN_IN_LOCATOR = By.className("login");
     private static final By WOMAN_TAB_LOCATOR = By.className("sf-with-ul");
-    private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[@class='submenu-container clearfix first-in-line-xs']//ul//li//a[contains(text(),'Evening Dresses')]");
+    //private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[contains(@class, 'submenu-container')]/li/a");
+    private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[contains(@class, 'submenu-container')]/li/ul/li/a");
+
+    //private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[@class='submenu-container clearfix first-in-line-xs']//ul//li//a[contains(text(),'Evening Dresses')]");
     private static final String URL_ = "http://automationpractice.com/index.php";
 
     public HomePage(WebDriver driver) {
@@ -27,10 +30,36 @@ public class HomePage extends AbstractPage {
         driver.get(URL_);
     }
 
-    enum SubMenuItem {
-        CASUAL_DRESSES,
-        EVENING_DRESSES,
-        SUMMER_DRESSES;
+    public enum WomenSubMenu{
+        T_SHIRTS (0),
+        BLOUSES (1),
+        CASUAL_DRESSES (2),
+        EVENING_DRESSES(3),
+        SUMMER_DRESSES(4);
+
+        private final int subMenuValue;
+
+        WomenSubMenu(int subMenuValue) {
+            this.subMenuValue = subMenuValue;
+        }
+
+        public int getWomenSubMenuItem() {
+            return this.subMenuValue;
+        }
+
+    }
+
+    public SearchResultsPage openWomenSubMenu(WomenSubMenu womenSubMenu) {
+        Actions actions = new Actions(driver);
+        List<WebElement> elements = driver.findElements(WOMAN_TAB_LOCATOR);
+        WebElement womanTab = elements.get(0);
+        actions.moveToElement(womanTab);
+        List<WebElement> elements2 = driver.findElements(WOMAN_SUB_MENU_LOCATOR);
+
+        WebElement womanElementToClick = elements2.get(womenSubMenu.getWomenSubMenuItem());
+        actions.moveToElement(womanElementToClick);
+        actions.click().build().perform();
+        return new SearchResultsPage(driver);
     }
 
     public void fillSearchInput(String query) {
@@ -51,19 +80,6 @@ public class HomePage extends AbstractPage {
         WebElement element = elements.get(0);
         element.click();
         return new AuthenticationPage(driver);
-    }
-
-    public SearchResultsPage openWomenSubMenu(String subMenuName) {  // TODO: 8/5/2020 how to hover and click on sub element?
-        Actions actions = new Actions(driver);
-        List<WebElement> elements = driver.findElements(WOMAN_TAB_LOCATOR);
-        WebElement womanTab = elements.get(0);
-        actions.moveToElement(womanTab);
-        List<WebElement> elements2 = driver.findElements(WOMAN_SUB_MENU_LOCATOR);
-        WebElement womanSubItem = elements2.get(0);
-        actions.moveToElement(womanSubItem);
-        actions.click().build().perform();
-
-        return new SearchResultsPage(driver);
     }
 
 }
