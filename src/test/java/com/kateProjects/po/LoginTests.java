@@ -13,15 +13,12 @@ import com.kateProjects.po.TestUtils.Listener;
 import com.kateProjects.po.User.User;
 import com.kateProjects.po.User.UserHelper;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 @Listeners(Listener.class)
-public class LoginTestSuit {
+public class LoginTests {
 
     @BeforeMethod
     public void setUp(){
@@ -36,7 +33,7 @@ public class LoginTestSuit {
     @Test(description = "To test login")
     public void SignInTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
         String user = loggedInPage.getUserName();
         Assert.assertTrue(user.equals("Kateryna Test"), "User Name is incorrect or you are not logged in! "  +
@@ -47,7 +44,7 @@ public class LoginTestSuit {
     public void SignOutTest() throws Exception {
         StringBuilder result = new StringBuilder();
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
 
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getTestUser());
         String user = loggedInPage.getUserName();
@@ -69,7 +66,7 @@ public class LoginTestSuit {
     public void EmptyCredentialTest() throws Exception {
         StringBuilder result = new StringBuilder();
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
 
         //Verify when both email and password are empty
         LoggedInPage loggedInPage = authPage.signInWithUser(UserHelper.getEmptyCredentialsUser());
@@ -106,7 +103,7 @@ public class LoginTestSuit {
     public void InvalidEmailsTest(String email) throws Exception {
         //System.out.println("Starting " + name.getMethodName());
 
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
 
         User user = new User();
         user.setEmail(email);
@@ -124,7 +121,7 @@ public class LoginTestSuit {
     @Test
     public void UnregisteredEmailTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(Constant.LOGIN_UNREGISTERED_EMAIL);
         user.setPassword(Constant.VALID_ENCRYPTED_PASSWORD);
@@ -138,7 +135,7 @@ public class LoginTestSuit {
     @Test
     public void InvalidPasswordTest() throws Exception {
         //System.out.println("Starting " + name.getMethodName());
-        AuthenticationPage authPage = Flows.getHomePage().pressSignInLink();
+        AuthenticationPage authPage = Flows.createHomePage().pressSignInLink();
         User user = UserHelper.getEmptyCredentialsUser();
         user.setEmail(Constant.LOGIN_EMAIL);
         user.setPassword(Constant.INVALID_ENCRYPTED_PASSWORD);

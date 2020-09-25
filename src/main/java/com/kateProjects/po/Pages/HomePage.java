@@ -18,7 +18,6 @@ public class HomePage extends AbstractPage {
     private static final By WOMAN_TAB_LOCATOR = By.className("sf-with-ul");
     //private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[contains(@class, 'submenu-container')]/li/a");
     private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[contains(@class, 'submenu-container')]/li/ul/li/a");
-
     //private static final By WOMAN_SUB_MENU_LOCATOR = By.xpath("//ul[@class='submenu-container clearfix first-in-line-xs']//ul//li//a[contains(text(),'Evening Dresses')]");
     private static final String URL_ = "http://automationpractice.com/index.php";
 
@@ -49,6 +48,14 @@ public class HomePage extends AbstractPage {
 
     }
 
+    public SearchResultsPage openWomenTab() {
+        Actions actions = new Actions(driver);
+        List<WebElement> elements = driver.findElements(WOMAN_TAB_LOCATOR);
+        WebElement womanTab = elements.get(0);
+        actions.moveToElement(womanTab).click();
+        return new SearchResultsPage(driver);
+    }
+
     public SearchResultsPage openWomenSubMenu(WomenSubMenu womenSubMenu) {
         Actions actions = new Actions(driver);
         List<WebElement> elements = driver.findElements(WOMAN_TAB_LOCATOR);
@@ -72,8 +79,14 @@ public class HomePage extends AbstractPage {
         List<WebElement> elements = driver.findElements(GO_BUTTON_LOCATOR);
         WebElement element = elements.get(0);
         element.click();
-        return new SearchResultsPage(driver);
+        return new SearchResultsPage(driver);   //todo combine 72-83 fillSearchInput + pressGo
     }
+
+//    public void search(String value) {   // instead of 72-83
+//        WebElement search = driver.findElement(HEADER_SEARCH_INPUT_LOCATOR);
+//        search.sendKeys(value);
+//        search.sendKeys(Keys.ENTER);
+//    }
 
     public AuthenticationPage pressSignInLink() {
         List<WebElement> elements = driver.findElements(SIGN_IN_LOCATOR);

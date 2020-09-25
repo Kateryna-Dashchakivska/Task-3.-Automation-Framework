@@ -1,30 +1,36 @@
 package com.kateProjects.po.BussinessFlows;
 
 import com.kateProjects.po.Driver.DriverFactory;
-import com.kateProjects.po.Pages.AuthenticationPage;
 import com.kateProjects.po.Pages.HomePage;
+import com.kateProjects.po.User.User;
 import com.kateProjects.po.User.UserHelper;
 import org.openqa.selenium.WebDriver;
 
 public class Flows {
 
-    private static HomePage homePage;
+    static WebDriver driver;
 
-    public static HomePage getHomePage() {
+    public static HomePage createHomePage() {
+        driver = DriverFactory.getDriver("firefox");
+        DriverFactory.browserSetUp();
+        return new HomePage(driver);
+    }
+
+    public static void  start() {
+        createHomePage().open();
+    }
+
+    public static HomePage signInAndSearch(String searchString) { //TODO: return
+        HomePage homePage = createHomePage();
+        homePage.open();
+
+        signInWithUser(UserHelper.getTestUser(), homePage);
+        homePage.fillSearchInput(searchString);
         return homePage;
     }
 
-
-    public static void start (){
-        WebDriver driver = DriverFactory.getChromeDriver();
-        DriverFactory.browserSetUp();
-        homePage = new HomePage(driver);
-        homePage.open();
+    private static void signInWithUser(User user, HomePage homePage) { //TODO: return bool
+        homePage.pressSignInLink().signInWithUser(UserHelper.getTestUser());
     }
 
-    public static void searchByLoggedUser(String searchString){
-        AuthenticationPage authPage = homePage.pressSignInLink();
-        authPage.signInWithUser(UserHelper.getTestUser());
-        homePage.fillSearchInput(searchString);
-    }
 }

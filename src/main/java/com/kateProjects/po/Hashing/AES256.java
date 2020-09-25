@@ -11,6 +11,7 @@ import java.util.Base64;
 
 public class AES256 {
 
+    //before commit needs to be set empty string:
     private static String secretKey = "kate123";
     private static String salt = "456";
 

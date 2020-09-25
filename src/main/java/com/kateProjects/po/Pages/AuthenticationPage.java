@@ -1,7 +1,7 @@
-    package com.kateProjects.po.Pages;
+package com.kateProjects.po.Pages;
 
-    import com.kateProjects.po.Hashing.AES256;
-    import com.kateProjects.po.User.User;
+import com.kateProjects.po.Hashing.AES256;
+import com.kateProjects.po.User.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,7 +41,7 @@ import java.util.List;
             element.sendKeys(query);
         }
 
-        public LoggedInPage signInWithUser(User user) {
+        public LoggedInPage signInWithUser(User user) { //TODO: return bool here. True if successful login
             enterEmail(user.getEmail());
             if (user.getPassword().equals("")){
                 enterPassword("");

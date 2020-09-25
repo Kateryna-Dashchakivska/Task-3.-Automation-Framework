@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Test Suit">
+    <test name="Regression">
+        <classes>
+            <class name="com.kateProjects.po.ItemFlowsTests"/>
+
+            <class name="com.kateProjects.po.LoginTests"/>
+
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

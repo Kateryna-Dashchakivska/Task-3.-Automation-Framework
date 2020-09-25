@@ -23,7 +23,8 @@ public class SearchResultsPage extends AbstractPage {
             Actions action = new Actions(driver);
             List<WebElement> elements = driver.findElements(FIRST_RESULT_LINK_LOCATOR);
             WebElement elementToHover = elements.get(0);
-            action.moveToElement(elementToHover).click().perform();
+           // action.moveToElement(elementToHover);
+            elementToHover.click();
             return new ItemPage(driver);
         }
 

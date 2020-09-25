@@ -2,6 +2,7 @@ package com.kateProjects.po.Driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -16,13 +17,22 @@ public class DriverFactory {
         //prevent instantiation
     }
 
-    public static WebDriver getChromeDriver() {
+    public static WebDriver getDriver(String browser) {
 
         if (driver == null) {
             try {
-                driver = new RemoteWebDriver(
-                        new URL("http://127.0.0.1:9515"),
-                        new ChromeOptions());
+                if (browser.equalsIgnoreCase("chrome")){
+                    driver = new RemoteWebDriver(
+                            new URL("http://127.0.0.1:9515"),
+                            new ChromeOptions());
+                }else if (browser.equalsIgnoreCase("firefox")){
+                    driver = new RemoteWebDriver(
+                            new URL("http://127.0.0.1:4444"),
+                            new FirefoxOptions());
+                }else {
+                    throw new RuntimeException(browser + " is unknown browser!");
+                }
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -32,12 +42,13 @@ public class DriverFactory {
 
     public static void browserSetUp() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().fullscreen();
+        driver.manage().window().maximize();
     }
 
     public static void kill(){
         driver.manage().deleteAllCookies();
-        driver.quit();
+        //driver.close();
+        driver.quit();   //with it onTestFailure unable to make screenshot
         driver = null;   //without it > NoSuchSessionException: Session ID is null.
     }
 }
