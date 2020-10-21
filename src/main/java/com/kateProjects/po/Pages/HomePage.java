@@ -79,7 +79,7 @@ public class HomePage extends AbstractPage {
         List<WebElement> elements = driver.findElements(GO_BUTTON_LOCATOR);
         WebElement element = elements.get(0);
         element.click();
-        return new SearchResultsPage(driver);   //todo combine 72-83 fillSearchInput + pressGo
+        return new SearchResultsPage(driver);   //TODO combine 72-83 fillSearchInput + pressGo
     }
 
 //    public void search(String value) {   // instead of 72-83

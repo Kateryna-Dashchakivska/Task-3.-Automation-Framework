@@ -9,7 +9,8 @@ import java.util.List;
 
 public class SearchResultsPage extends AbstractPage {
 
-    private static final By FIRST_RESULT_LINK_LOCATOR = By.className("product_img_link");
+    //private static final By FIRST_RESULT_LINK_LOCATOR = By.className("product_img_link");
+    private static final By FIRST_RESULT_LINK_LOCATOR = By.className("left-block");
     private static final By HEADER_NAME_LOCATOR = By.className("cat-name");
 
     WebElement elementToHover;
@@ -25,6 +26,7 @@ public class SearchResultsPage extends AbstractPage {
             WebElement elementToHover = elements.get(0);
            // action.moveToElement(elementToHover);
             elementToHover.click();
+            driver.switchTo().frame(0);
             return new ItemPage(driver);
         }
 

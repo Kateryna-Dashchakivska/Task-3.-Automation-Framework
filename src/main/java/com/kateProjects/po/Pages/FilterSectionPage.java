@@ -48,7 +48,7 @@ public class FilterSectionPage extends AbstractPage {
 
     }
 
-    public FilteredRusultsPage setFilters(FilterCheckBoxes checkBox) {
+    public FilteredRusultsPage setFilters(FilterCheckBoxes checkBox) {  //fasade
         Actions actions = new Actions(driver);
         List<WebElement> elements = driver.findElements(FILTER_CHECKBOXES_LOCATOR);
         WebElement checkboxToClick = elements.get(checkBox.getFilterCheckBoxes());

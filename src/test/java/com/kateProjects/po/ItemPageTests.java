@@ -48,7 +48,7 @@ public class ItemPageTests {
     }
 
     @Test
-    public void ChangeItemSizeTest() throws Exception {
+    public void ChangeItemSizeTest() throws Exception {  //todo !!!!!
         //System.out.println("Starting " + name.getMethodName());
         SearchResultsPage searchResultsPage = Flows.signInAndSearch("dress").pressGo();
         ItemPage itemPage = searchResultsPage.openFirstItem();
@@ -59,7 +59,7 @@ public class ItemPageTests {
     }
 
     @Test
-    public void ChangeItemColorTest() throws Exception {
+    public void ChangeItemColorTest() throws Exception {   //todo !!!!!
         //System.out.println("Starting " + name.getMethodName());
         SearchResultsPage searchResultsPage = Flows.signInAndSearch("dress").pressGo();
         ItemPage itemPage = searchResultsPage.openFirstItem();
@@ -70,10 +70,10 @@ public class ItemPageTests {
     }
 
     @Test
-    public void AddItemQuantityTest() throws Exception {
+    public void AddItemQuantityTest() throws Exception {   //todo!!!!
         //System.out.println("Starting " + name.getMethodName());
         SearchResultsPage searchResultsPage = Flows.signInAndSearch("dress").pressGo();
-        ItemPage itemPage = searchResultsPage.openFirstItem();
+        ItemPage itemPage = searchResultsPage.openFirstItem();    //todo -  add handler
         itemPage.addItemsQuantity(3);
         CartModal cartModal = itemPage.addToCartFirstItem();
         Integer itemQuantity = cartModal.getQuantityNumber();
@@ -82,7 +82,7 @@ public class ItemPageTests {
     }
 
     @Test
-    public void RemoveItemQuantityTest() throws Exception {
+    public void RemoveItemQuantityTest() throws Exception {     //todo !!!!
         //System.out.println("Starting " + name.getMethodName());
         SearchResultsPage searchResultsPage = Flows.signInAndSearch("dress").pressGo();
         ItemPage itemPage = searchResultsPage.openFirstItem();

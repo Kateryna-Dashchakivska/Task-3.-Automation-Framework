@@ -11,7 +11,7 @@ public class Flows {
     static WebDriver driver;
 
     public static HomePage createHomePage() {
-        driver = DriverFactory.getDriver("firefox");
+        driver = DriverFactory.getDriver("chrome");
         DriverFactory.browserSetUp();
         return new HomePage(driver);
     }

@@ -16,7 +16,7 @@ public class ItemPage extends AbstractPage {
     private static final By ADD_TO_CART_BUTTON_LOCATOR = By.xpath("//span[contains(text(),'Add to cart')]");
     private static final By ITEM_DROPDOWN_SIZE_LOCATOR = By.id ("group_1");
     private static final By BLUE_COLOR_LOCATOR = By.id ("color_14");
-    private static final By INCREASE_QUANTITY_LOCATOR = By.className("icon-plus");
+    private static final By INCREASE_QUANTITY_LOCATOR = By.xpath("//*[@class='icon-plus']");
     private static final By DECREASE_QUANTITY_LOCATOR = By.className("icon-minus");
     private static final By WISHLIST_BUTTON = By.id("wishlist_button");
     private static final By WISHLIST_MESSAGE = By.className("fancybox-error");
